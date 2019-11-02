@@ -8,7 +8,9 @@ from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFacto
 from collections import Counter
 from nltk.tokenize import word_tokenize
 from nltk.probability import FreqDist
-import searchFunction as sf
+
+
+
 
 def createStopword(more_stopword = []) : 
     stop_factory = StopWordRemoverFactory().get_stop_words() 
@@ -83,16 +85,20 @@ class Query:
     def setDF(self , df):
         self.df = df
     def computeIDF(self , total_document):
-        self.idf = math.log10(total_document/self.df)
+        if self.df != 0 :
+            self.idf = math.log10(total_document/self.df)
     
+       
 
 
 
     
-def main() : 
+def search(keywords) : 
     files = ["corpus/habibie.txt" , "corpus/soekarno.txt", "corpus/hatta.txt"] 
     corpuses = [Corpus(file) for file in files]
-    keywords = ["presiden", "indonesia" , "pertama", "wakil"]
+    keywords = stopword.remove(keywords)
+    keywords = keywords.split()
+    print(keywords)
     querys = [Query(normalize_text(keyword)) for keyword in keywords]
     total_corpus = len(corpuses)
     total_weight = {}
@@ -121,24 +127,21 @@ def main() :
         for query in querys : 
             counter_weight = counter_weight + corpus.weight[query.keyword]
 
-        total_weight[corpus.corpus_file] = counter_weight
-        print("document : {} , total weight : {}".format(corpus.corpus_file , total_weight[corpus.corpus_file]))
+        if(counter_weight != 0):
+            total_weight[corpus.corpus_file] = counter_weight
+        # print("document : {} , total weight : {}".format(corpus.corpus_file , total_weight[corpus.corpus_file]))
 
 
     ranked = sorted(total_weight.items(), key = lambda x : x[1] , reverse=True)
+    ranked = dict(ranked)
     print("document teratas")
     print(ranked)
-
-      
-        
-
-
-
-
-
+    return corpuses, querys , ranked
 
 stopword = createStopword(['saya','kamu', 'bukan','huruf','bagai'])
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
-if __name__ == "__main__":
-    main()
+
+      
+        
+
