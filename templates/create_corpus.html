@@ -32,6 +32,12 @@
      .mdc-button .mdc-button--raised{
         background-color: #000000;
       }
+
+      #textarea{
+        white-space: pre-line;
+        white-space: pre-wrap;
+      }
+
     </style>
     <!-- Custom styles for this template -->
     <link href="sticky-footer-navbar.css" rel="stylesheet">
@@ -73,34 +79,53 @@
         </div>
       </div>
       
+    {% if corpus is defined%}
+      <form action="/update/{{corpus.id}}" method="POST">
+    {% else %}
       <form action="/upload" method="POST">
+    {%endif %}
+     
         <div class="row">
             <div class="col-12">
                 <div class="mdc-text-field mdc-text-field--outlined w-100 my-3">
+                  {% if corpus is defined%}
+                    <input class="mdc-text-field__input" value="{{ corpus.title}}" name="title" id="text-field-hero-input">
+                  {% else %}
                     <input class="mdc-text-field__input" name="title" id="text-field-hero-input">
-                    <div class="mdc-notched-outline ">
-                        <div class="mdc-notched-outline__leading"></div>
-                        <div class="mdc-notched-outline__notch">
-                        <label for="text-field-hero-input" class="mdc-floating-label">Title</label>
-                        </div>
-                        <div class="mdc-notched-outline__trailing"></div>
-                    </div>
+                  {%endif %}
+                  <div class="mdc-notched-outline ">
+                      <div class="mdc-notched-outline__leading"></div>
+                      <div class="mdc-notched-outline__notch">
+                      <label for="text-field-hero-input" class="mdc-floating-label">Title</label>
+                      </div>
+                      <div class="mdc-notched-outline__trailing"></div>
+                  </div>
                 </div>
             </div>
             <div class="col-12">
                 <div class="mdc-text-field text-field mdc-text-field--textarea w-100 my-5">
-                    <textarea id="textarea" class="mdc-text-field__input" rows="8" cols="40"></textarea>
+                  {% if corpus is defined%}
+                    <textarea id="textarea" name="body"  class="mdc-text-field__input" rows="8" cols="40" >{{corpus.body}}</textarea>
+                  {% else %}
+                    <textarea id="textarea" name="body" class="mdc-text-field__input" rows="8" cols="40" ></textarea>
+                  {%endif %}
+                   
                     <div class="mdc-notched-outline">
                         <div class="mdc-notched-outline__leading"></div>
                         <div class="mdc-notched-outline__notch">
-                        <label for="textarea" name="corpus" class="mdc-floating-label">Corpus</label>
+                        <label for="textarea" name="body" class="mdc-floating-label">write your corpus here ..</label>
                         </div>
                         <div class="mdc-notched-outline__trailing"></div>
                     </div>
                 </div>
            </div>
            <div class="col-12 text-right">
-                <button class="mdc-button mdc-button--raised " type="submit">Upload</button>
+            {% if corpus is defined%}
+              <button class="mdc-button mdc-button--raised " type="submit">Save</button>
+            {% else %}
+              <button class="mdc-button mdc-button--raised " type="submit">Upload</button>
+            {%endif %}
+               
            </div>
         </div>
       </form>

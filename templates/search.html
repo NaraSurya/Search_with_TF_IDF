@@ -83,7 +83,7 @@
             </div>
             <div class="row mt-3">
                 <div class="col-12">
-                    <table class="table table-responsive table-bordered">
+                    <table class="table table-bordered w-100">
                         <caption>hasil computasi TF-IDF</caption>
                         <thead>
                             <tr>
@@ -97,13 +97,13 @@
                             <tr>
                                 <th></th>
                                 {%for corpus in corpuses %}
-                                    <th>{{corpus.corpus_file}}</th>
+                                    <th>{{corpus.title}}</th>
                                 {%endfor%}
                                 <th></th>
                                 <th></th>
                                 <th></th>
                                 {%for corpus in corpuses %}
-                                    <th>{{corpus.corpus_file}}</th>
+                                    <th>{{corpus.title}}</th>
                                 {%endfor%}
                             </tr>
                         </thead>
@@ -115,17 +115,21 @@
                                         <td>{{ corpus.computeTF(query.keyword) }}</td>
                                     {%endfor%}
                                     <td>{{ query.df}}</td>
-                                    <td>{{ query.idf}}</td>
-                                    <td>{{ query.idf+1 }}</td>
+                                    <td>{{'%0.2f'|format(query.idf|float)}}</td>
+                                    <td>{{'%0.2f'|format(query.idf+1|float)}}</td>
                                     {%for corpus in corpuses %}
-                                        <td>{{ corpus.weight[query.keyword]}}</td>
+                                        <td>{{'%0.2f'|format(corpus.get_weight(query.keyword)|float)}}</td>
                                     {%endfor%}
                                 </tr>
                             {%endfor%}
                             <tr>
                                 <th colspan="{{ corpuses|length + 4 }}" class="text-right">Total Bobot</th>
                                 {%for corpus in corpuses %}
-                                    <td>{{ranked[corpus.corpus_file]}}</td>
+                                    {%if corpus in ranked.keys() %}
+                                        <td> {{'%0.2f'|format(ranked[corpus]|float)}}</td>
+                                    {%else %}
+                                        <td>0.00</td>
+                                    {%endif%}
                                 {%endfor%}
                             </tr>
                         </tbody>
@@ -135,14 +139,31 @@
             <div class="row mt-3">
                 <div class="col-12">
                     <h5>Result : {{ranked|length}}</h5>
-                    {%for key , value in ranked.items() %}
-                        <h3>{{key}}</h3>
-                        <h6>weight : {{value}}</h6>
+                    {%for corpus , value in ranked.items() %}
+                        <div class="row mt-3">
+                            <div class="col-12 mx-2 p-3 shadow-sm ">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <a href="corpus/{{corpus.id}}" class="text-dark"><h3>{{corpus.title}}</h3></a>
+                                    </div>
+                                    <div class="col-2">
+                                        <h6>weight : {{'%0.2f'|format(value|float)}}</h6>
+                                    </div>
+                                </div>
+                                <p>{{corpus.resume}}</p>
+                            </div>
+                        </div>
+                        
                     {%endfor%}
                 </div>
-            </div>
-            
+            </div> 
         </div>
+        <footer class="footer my-5 py-3">
+            <div class="container">
+                <span class="text-muted">Creator : Ida Bagus Agung Nara Surya Darma </span>
+            </div>
+        </footer>
+        
     </body>
 
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>

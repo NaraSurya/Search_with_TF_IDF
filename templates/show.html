@@ -59,54 +59,53 @@
     </nav>
   </header>
 
+  {%if update is defined%}
+    <div class="mdc-snackbar" id="snackbar">
+      <div class="mdc-snackbar__surface">
+        <div class="mdc-snackbar__label"
+             role="status"
+             aria-live="polite">
+          Sukses Update
+        </div>
+      </div>
+    </div>
+  {%endif%}
+
 <!-- Begin page content -->
   <main role="main">
     <div class="container">
-      <div class="row mt-5">
-        <div class="col-12 mt-5">
-          <div class="jumbotron jumbotron-fluid">
-              <div class="container">
-                <h1 class="display-4">Corpuser</h1>
-                <p class="lead">Mesin Pencari Corpus dengan menggunakan Metode TF-IDF</p>
-              </div>
-            </div>
-        </div>
-      </div>
-      
-      <form action="/search" method="GET">
-        <div class="row">
-            <div class="col-8">
-              <div class="mdc-text-field mdc-text-field--outlined w-100">
-                <input class="mdc-text-field__input" name="keyword" id="text-field-hero-input">
-                <div class="mdc-notched-outline ">
-                  <div class="mdc-notched-outline__leading"></div>
-                  <div class="mdc-notched-outline__notch">
-                    <label for="text-field-hero-input" class="mdc-floating-label">Search</label>
-                  </div>
-                  <div class="mdc-notched-outline__trailing"></div>
+        <div class="row mt-5">
+            <div class="col-12 mt-5">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-4">Corpuser</h1>
+                    <p class="lead">Mesin Pencari Corpus dengan menggunakan Metode TF-IDF</p>
                 </div>
-              </div>
+                </div>
             </div>
-            <div class="col-4">
-                <button class="mdc-button mdc-button--raised mt-1 h-75 text-white bg-secondary">Search</button>
+        </div>
+        <div class="mt-5 row">
+            <div class="col-6">
+                <h2>{{corpus.title}}</h2>
             </div>
-          </div>
-      </form>
+            <div class="col-6 d-flex flex-row-reverse">
+                <a href="/corpus/delete/{{corpus.id}}" class="mdc-button mdc-button--raised bg-danger">delete</a>
+                <a href="/corpus/edit/{{corpus.id}}" class="mdc-button mdc-button--raised bg-success mx-2"> edit</a>
+             
+            </div>
+        </div>
+        <div class="mt-5 row">
+            <div class="col-12">
+                <p class="text-secondary">{% autoescape false %} {{corpus.body}} {% endautoescape %}}</p>
+            </div>
+        </div>
+        <div class="mt-5 row">
+            <div class="col-12">
+                <h3>Resume</h3>
+                <p class="text-secondary">{{corpus.resume}}</p>
+            </div>
+        </div>
       
-      <div class="row">
-        <div class="col-12 mt-5">
-          <h4 class="text-secondary">Corpus Terbaru </h4>
-        </div>
-      </div>
-
-      {%for corpus in corpuses %}
-      <div class="row mt-3">
-        <div class="col-12 mx-2 p-3 shadow-sm ">
-            <a href="corpus/{{corpus.id}}" class="text-dark"><h3>{{corpus.title}}</h3></a>
-            <p>{{corpus.resume}}</p>
-        </div>
-      </div>
-     {%endfor %}
     </div>
   </main>
 
@@ -116,6 +115,8 @@
     </div>
   </footer>
 
+  
+
   <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script></body>
@@ -124,6 +125,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>      
   <script>
     const field = mdc.textField.MDCTextField.attachTo(document.querySelector('.mdc-text-field'));
+    const snackbar = new MDCSnackbar(document.querySelector('#snackbar'));
 
   // input focus method according to docs but doesn't seem to work
   field.focus();

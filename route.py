@@ -5,12 +5,12 @@ import sys
 sys.path.insert(1, 'D:/Kuliah/semester 5/Sistem Temu Kembali Informasi/tugas/Search Document with TF-IDF/code')
 from controller import searchController as sc
 from controller import corpusController as cc
-
+from controller import homeController as hc
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-    return render_template('home.html')
+def home():
+    return hc.index()
 
 @app.route('/<name>')
 def name(name):
@@ -30,3 +30,21 @@ def upload():
     if request.method == 'POST':
         return cc.store(request)
     return "error"
+
+@app.route('/corpus/<id>')
+def show(id):
+    return cc.show(id)
+
+@app.route('/corpus/edit/<id>')
+def edit(id):
+    return cc.edit(id)
+
+@app.route('/update/<id>', methods=['POST', 'GET'])
+def update(id):
+    if request.method == 'POST':
+        return cc.update(id,request)
+    return "error"
+
+@app.route('/corpus/delete/<id>')
+def delete(id):
+    return cc.delete(id)
