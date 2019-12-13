@@ -60,7 +60,7 @@
         <div class="container">
             <div class="row mt-5">
                 <div class="col">
-                    <form action="/search" method="GET">
+                    <form action="/searchlsa" method="GET">
                         <div class="row">
                             <div class="col-8">
                                 <div class="mdc-text-field mdc-text-field--outlined w-100">
@@ -81,61 +81,7 @@
                     </form>
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col-12">
-                    <table class="table table-bordered w-100">
-                        <caption>hasil computasi TF-IDF</caption>
-                        <thead>
-                            <tr>
-                                <th>Query</th>
-                                <th colspan="{{ corpuses|length }}" class="text-center">TF</th>
-                                <th>df</th>
-                                <th>IDF</th>
-                                <th>IDF+1</th>
-                                <th colspan="{{ corpuses|length }}" class="text-center">Weight</th>
-                            </tr>
-                            <tr>
-                                <th></th>
-                                {%for corpus in corpuses %}
-                                    <th>{{corpus.title}}</th>
-                                {%endfor%}
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                {%for corpus in corpuses %}
-                                    <th>{{corpus.title}}</th>
-                                {%endfor%}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {%for query in querys %}
-                                <tr>
-                                    <td>{{query.keyword}}</td>
-                                    {%for corpus in corpuses %}
-                                        <td>{{ corpus.computeTF(query.keyword) }}</td>
-                                    {%endfor%}
-                                    <td>{{ query.df}}</td>
-                                    <td>{{'%0.2f'|format(query.idf|float)}}</td>
-                                    <td>{{'%0.2f'|format(query.idf+1|float)}}</td>
-                                    {%for corpus in corpuses %}
-                                        <td>{{'%0.2f'|format(corpus.get_weight(query.keyword)|float)}}</td>
-                                    {%endfor%}
-                                </tr>
-                            {%endfor%}
-                            <tr>
-                                <th colspan="{{ corpuses|length + 4 }}" class="text-right">Total Bobot</th>
-                                {%for corpus in corpuses %}
-                                    {%if corpus in ranked.keys() %}
-                                        <td> {{'%0.2f'|format(ranked[corpus]|float)}}</td>
-                                    {%else %}
-                                        <td>0.00</td>
-                                    {%endif%}
-                                {%endfor%}
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+           
             <div class="row mt-3">
                 <div class="col-12">
                     <h5>Result : {{ranked|length}}</h5>

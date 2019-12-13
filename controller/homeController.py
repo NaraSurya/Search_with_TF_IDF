@@ -8,3 +8,8 @@ def index(create_code=0):
     session = Session()
     corpuses = session.query(Corpus).order_by(Corpus.id.desc())
     return render_template('home.html', corpuses=corpuses)
+
+def indexLSA(create_code=0):
+    session = Session()
+    corpuses = session.query(Corpus).order_by(Corpus.id.desc())
+    return render_template('homeLSA.html', corpuses=corpuses)

@@ -12,6 +12,10 @@ app = Flask(__name__)
 def home():
     return hc.index()
 
+@app.route('/lsa')
+def homeLSA():
+    return hc.indexLSA()
+
 @app.route('/<name>')
 def name(name):
     return render_template('test.html',name=name)
@@ -20,6 +24,11 @@ def name(name):
 def search():
     keyword = request.args.get('keyword', 'empty')
     return sc.search(keyword)
+
+@app.route('/searchlsa')
+def searchlsa():
+    keyword = request.args.get('keyword', 'empty')
+    return sc.searchLSA(keyword)
 
 @app.route('/create-corpus')
 def create_corpus(): 

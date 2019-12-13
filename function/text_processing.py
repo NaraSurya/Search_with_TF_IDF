@@ -37,7 +37,10 @@ def preTextProcessing(text) :
 
     text_no_stopword = stopword.remove(text)
     text_stemmed =stemmer.stem(text_no_stopword)
-   
+    
+    print("stemmed : \n")
+    print(text_stemmed)
+    print("\n")
     return text_stemmed
 
 def tokenization(text) : 
